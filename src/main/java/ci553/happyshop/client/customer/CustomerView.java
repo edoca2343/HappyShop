@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import ci553.happyshop.utility.SoundPlayer;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -174,6 +175,7 @@ public class CustomerView  {
     private void buttonClicked(ActionEvent event) {
         try{
             Button btn = (Button)event.getSource();
+            SoundPlayer. play("/Mechanical-click-sound-effectv2.mp3");
             String action = btn.getText();
             if(action.equals("Add to Trolley")){
                 showTrolleyOrReceiptPage(vbTrolleyPage); //ensure trolleyPage shows if the last customer did not close their receiptPage
@@ -210,6 +212,10 @@ public class CustomerView  {
             hbRoot.getChildren().set(lastIndex, pageToShow);
         }
     }
+
+
+
+
 
     WindowBounds getWindowBounds() {
         return new WindowBounds(viewWindow.getX(), viewWindow.getY(),
