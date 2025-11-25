@@ -61,6 +61,30 @@ public class CustomerModel {
         updateView();
     }
 
+
+//    public void class validatetotalcost() throws IOException, SQLException{
+//
+//
+//        double totalPrice = 0;
+//
+//        for  (Product t : trolley) {
+//            int orderQuantity = t.getStockQuantity();
+//            totalPrice = totalPrice + t.getUnit.Price() + orderQuantity;
+//        }
+//        try {if (totalPrice < 5 );
+//        }catch(underMinimumPayment e) {
+//            System.out.println("Price should be greater than 5.");
+//        }
+//
+//
+//
+//
+//
+//
+//    }
+
+
+
     void addToTrolley() {
         if (theProduct != null) {
 
@@ -144,6 +168,8 @@ public class CustomerModel {
                 displayTaTrolley = ProductListFormatter.buildString(trolley);
                 ErrorMessage = errorMsg.toString();
                 removeProductNotifier.showRemovalMsg(ErrorMessage);
+//reimplemented the error message to string to help improve what errors are shown within the program.
+
 
 //                displayLaSearchResult = "Checkout failed due to insufficient stock for the following products:\n" + errorMsg.toString();
 //                System.out.println("stock is not enough");
