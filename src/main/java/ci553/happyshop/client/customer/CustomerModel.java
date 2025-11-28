@@ -2,6 +2,8 @@ package ci553.happyshop.client.customer;
 
 import ci553.happyshop.catalogue.Order;
 import ci553.happyshop.catalogue.Product;
+import ci553.happyshop.catalogue.exceptions.ExcessiveOrderQuantityException;
+import ci553.happyshop.catalogue.exceptions.underMinimumPayment;
 import ci553.happyshop.storageAccess.DatabaseRW;
 import ci553.happyshop.orderManagement.OrderHub;
 import ci553.happyshop.utility.StorageLocation;
@@ -62,26 +64,7 @@ public class CustomerModel {
     }
 
 
-//    public void class validatetotalcost() throws IOException, SQLException{
-//
-//
-//        double totalPrice = 0;
-//
-//        for  (Product t : trolley) {
-//            int orderQuantity = t.getStockQuantity();
-//            totalPrice = totalPrice + t.getUnit.Price() + orderQuantity;
-//        }
-//        try {if (totalPrice < 5 );
-//        }catch(underMinimumPayment e) {
-//            System.out.println("Price should be greater than 5.");
-//        }
-//
-//
-//
-//
-//
-//
-//    }
+
 
 
 
@@ -130,8 +113,7 @@ public class CustomerModel {
 //            ArrayList<Product> groupedTrolley= groupProductsById(trolley);
             ArrayList<Product> insufficientProducts= databaseRW.purchaseStocks(trolley);
 
-
-
+            validatetotalcost();
 
             if(insufficientProducts.isEmpty()){ // If stock is sufficient for all products
                 //get OrderHub and tell it to make a new Order
@@ -157,12 +139,17 @@ public class CustomerModel {
                 }
                 theProduct=null;
 
+
+
                 //TODO
                 // Add the following logic here:
                 // 1. Remove products with insufficient stock from the trolley.
                 // 2. Trigger a message window to notify the customer about the insufficient stock, rather than directly changing displayLaSearchResult.
                 //You can use the provided RemoveProductNotifier class and its showRemovalMsg method for this purpose.
                 //remember close the message window where appropriate (using method closeNotifierWindow() of RemoveProductNotifier class)
+
+
+
                 for (Product p : insufficientProducts){ trolley.remove(p);}
 
                 displayTaTrolley = ProductListFormatter.buildString(trolley);
@@ -182,7 +169,34 @@ public class CustomerModel {
 
     }
 
+    public void validatetotalcost()throws IOException, SQLException{
 
+
+        double totalPrice = 0;
+
+        for  (Product t : trolley) {
+            int orderQuantity = t.getStockQuantity();
+            totalPrice = totalPrice + (t.getUnitPrice() * orderQuantity);
+
+            try {
+                if (totalPrice < 5) ;
+            } catch (underMinimumPayment e) {
+                System.out.println("Price should be greater than 5.");
+            }
+
+            try {
+                if (orderQuantity >= 50) ;
+            } catch (ExcessiveOrderQuantityException e) {
+                System.out.println("Order Quantity should be not exceed 50.");
+                orderQuantity =0;
+
+            }
+
+
+        }
+
+
+    }
 
     /**
      * Groups products by their productId to optimize database queries and updates.
@@ -240,4 +254,7 @@ public class CustomerModel {
     public void setTheProduct(Product theProduct) {
         this.theProduct = theProduct;
     }
+
+
 }
+
