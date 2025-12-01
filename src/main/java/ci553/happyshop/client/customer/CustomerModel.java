@@ -26,42 +26,42 @@ public class CustomerModel {
     public RemoveProductNotifier removeProductNotifier;
     //Benefits: Flexibility: Easily change the database implementation.
 
+    private  ArrayList<Product> productList = new ArrayList<>();
     private Product theProduct = null; // product found from search
     private ArrayList<Product> trolley = new ArrayList<>(); // a list of products in trolley
 
     private String ErrorMessage  = " ";
     // Four UI elements to be passed to CustomerView for display updates.
+
     private String imageName = "imageHolder.jpg";                // Image to show in product preview (Search Page)
     private String displayLaSearchResult = "No Product was searched yet"; // Label showing search result message (Search Page)
     private String displayTaTrolley = "";                                // Text area content showing current trolley items (Trolley Page)
     private String displayTaReceipt = "";                                // Text area content showing receipt after checkout (Receipt Page)
 
     //SELECT productID, description, image, unitPrice,inStock quantity
-    void search() throws SQLException {
-        String productId = cusView.tfId.getText().trim();
-        if (!productId.isEmpty()) {
-            theProduct = databaseRW.searchByProductId(productId); //search database
-            if (theProduct != null && theProduct.getStockQuantity() > 0) {
-                double unitPrice = theProduct.getUnitPrice();
-                String description = theProduct.getProductDescription();
-                int stock = theProduct.getStockQuantity();
+    void dosearch() throws SQLException {
 
-                String baseInfo = String.format("Product_Id: %s\n%s,\nPrice: £%.2f", productId, description, unitPrice);
-                String quantityInfo = stock < 100 ? String.format("\n%d units left.", stock) : "";
-                displayLaSearchResult = baseInfo + quantityInfo;
-                System.out.println(displayLaSearchResult);
-            } else {
-                theProduct = null;
-                displayLaSearchResult = "No Product was found with ID " + productId;
-                System.out.println("No Product was found with ID " + productId);
+
+
+            String keyword = cusView.tfSearchKeyword.getText().trim();
+
+            if (!keyword.equals("")) {
+//            theProduct = databaseRW.searchByProductId(productId); //search database
+//            if (theProduct != null && theProduct.getStockQuantity() > 0) {
+//                double unitPrice = theProduct.getUnitPrice();
+//                String description = theProduct.getProductDescription();
+//                int stock = theProduct.getStockQuantity();
+                    productList  = databaseRW.searchProduct(keyword);
+
+            } else{
+                productList.clear();
+                displayLaSearchResult = "Please type ProductID into the search";
+                System.out.println("Please type ProductID into the search.");
+
+
             }
-        } else {
-            theProduct = null;
-            displayLaSearchResult = "Please type ProductID";
-            System.out.println("Please type ProductID.");
+            updateView();
         }
-        updateView();
-    }
 
 
 
@@ -188,7 +188,7 @@ public class CustomerModel {
                 if (orderQuantity >= 50) ;
             } catch (ExcessiveOrderQuantityException e) {
                 System.out.println("Order Quantity should be not exceed 50.");
-                orderQuantity =0;
+                orderQuantity = 0;
 
             }
 
@@ -227,19 +227,19 @@ public class CustomerModel {
         displayTaReceipt="";
     }
 
-    void updateView() {
-        if(theProduct != null){
-            imageName = theProduct.getProductImageName();
-            String relativeImageUrl = StorageLocation.imageFolder +imageName; //relative file path, eg images/0001.jpg
-            // Get the full absolute path to the image
-            Path imageFullPath = Paths.get(relativeImageUrl).toAbsolutePath();
-            imageName = imageFullPath.toUri().toString(); //get the image full Uri then convert to String
-            System.out.println("Image absolute path: " + imageFullPath); // Debugging to ensure path is correct
-        }
-        else{
-            imageName = "imageHolder.jpg";
-        }
-        cusView.update(imageName, displayLaSearchResult, displayTaTrolley,displayTaReceipt);
+   void updateView() {
+//        if(theProduct != null){
+//            imageName = theProduct.getProductImageName();
+//            String relativeImageUrl = StorageLocation.imageFolder +imageName; //relative file path, eg images/0001.jpg
+//            // Get the full absolute path to the image
+//            Path imageFullPath = Paths.get(relativeImageUrl).toAbsolutePath();
+//            imageName = imageFullPath.toUri().toString(); //get the image full Uri then convert to String
+//            System.out.println("Image absolute path: " + imageFullPath); // Debugging to ensure path is correct
+//        }
+//        else{
+//            imageName = "imageHolder.jpg";
+//        }
+        cusView.update(productList, displayTaTrolley,displayTaReceipt);
     }
      // extra notes:
      //Path.toUri(): Converts a Path object (a file or a directory path) to a URI object.

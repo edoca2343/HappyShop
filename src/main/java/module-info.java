@@ -5,6 +5,8 @@ module ci553.happyshop {
     requires javafx.graphics;
     requires javafx.media;
     requires java.desktop;
+    requires javafx.base;
+
 
     opens ci553.happyshop to javafx.fxml;
     opens ci553.happyshop.client to javafx.fxml;
