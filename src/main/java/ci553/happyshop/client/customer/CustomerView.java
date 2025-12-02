@@ -22,6 +22,8 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static jdk.javadoc.internal.doclets.toolkit.util.DocPath.empty;
+
 /**
  * The CustomerView is separated into two sections by a line :
  *
@@ -86,17 +88,20 @@ public class CustomerView  {
     }
 
     private VBox createSearchPage() {
-        Label laPageTitle = new Label("Search by Product ID/Name");
+        Label laPageTitle = new Label("Search by product ID/Name");
         laPageTitle.setStyle(UIStyle.labelTitleStyle);
 
 //        Label laId = new Label("ID:      ");
 //        laId.setStyle(UIStyle.labelStyle);
-        Button btnSearch = new Button("Search");
+        Button btnSearch = new Button("🔍");
         tfSearchKeyword = new TextField();
         tfSearchKeyword.setPromptText("eg. 0001");
         tfSearchKeyword.setStyle(UIStyle.textFiledStyle);
-        HBox hbId = new HBox(10, tfSearchKeyword, btnSearch);
 
+        btnSearch.setOnAction(this::buttonClicked);
+        btnSearch.setStyle(UIStyle.buttonStyle);
+        HBox hbId = new HBox(10, tfSearchKeyword, btnSearch);
+        hbId.setAlignment(Pos.CENTER);
 //        Label laName = new Label("Name:");
 //        laName.setStyle(UIStyle.labelStyle);
 //        tfName = new TextField();
@@ -104,14 +109,16 @@ public class CustomerView  {
 //        tfName.setStyle(UIStyle.textFiledStyle);
 //        HBox hbName = new HBox(10, laName, tfName);
 
-//        Label laPlaceHolder = new Label(  " ".repeat(15)); //create left-side spacing so that this HBox aligns with others in the layout.
+//   Label laPlaceHolder = new Label(  " ".repeat(15)); //create left-side spacing so that this HBox aligns with others in the layout.
 //        Button btnSearch = new Button("Search");
         btnSearch.setStyle(UIStyle.buttonStyle);
         btnSearch.setOnAction(this::buttonClicked);
         Button btnAddToTrolley = new Button("Add to Trolley");
         btnAddToTrolley.setStyle(UIStyle.buttonStyle);
         btnAddToTrolley.setOnAction(this::buttonClicked);
-        HBox hbBtns = new HBox(10,btnSearch, btnAddToTrolley);
+        HBox hbBtns = new HBox(10,  btnAddToTrolley);
+        hbBtns.setAlignment(Pos.CENTER);
+
 
         obeProductList = FXCollections.observableArrayList();
         obrLvProducts = new ListView<>(obeProductList);//ListView proListView observes proList
@@ -131,6 +138,7 @@ public class CustomerView  {
 //        lbProductInfo.setStyle(UIStyle.labelMulLineStyle);
 //        HBox hbSearchResult = new HBox(5, ivProduct, lbProductInfo);
 //        hbSearchResult.setAlignment(Pos.CENTER_LEFT);
+
         obrLvProducts.setCellFactory(param -> new ListCell<Product>() {
             @Override
             protected void updateItem(Product product, boolean empty) {
@@ -160,6 +168,10 @@ public class CustomerView  {
                 }
             }
         });
+
+
+
+
         VBox vbSearchPage = new VBox(15, laPageTitle, hbId, hbBtns, obrLvProducts);
         vbSearchPage.setPrefWidth(COLUMN_WIDTH);
         vbSearchPage.setAlignment(Pos.TOP_CENTER);
@@ -247,32 +259,28 @@ public class CustomerView  {
 //
 //    }
 
-    public void update(String imageName, String searchResult, String trolley, String receipt) {
 
-//        ivProduct.setImage(new Image(imageName));
-//        lbProductInfo.setText(searchResult);
-        taTrolley.setText(trolley);
-        if (!receipt.equals("")) {
-            showTrolleyOrReceiptPage(vbReceiptPage);
-            taReceipt.setText(receipt);
-        }
-    }
-    public void update  (ArrayList<Product> productList, String trolley, String receipt)
-    {
+
+    public void update( ArrayList<Product> productList,String trolley, String receipt) {
+
         int proCounter = productList.size();
         System.out.println(proCounter);
-        laSearchSummary.setText(proCounter + " Products found ");
-        laSearchSummary.setVisible(true);
+//        laSearchSummary.setText(proCounter + " products found");
+//        laSearchSummary.setVisible(true);
         obeProductList.clear();
         obeProductList.addAll(productList);
 
-
         taTrolley.setText(trolley);
         if (!receipt.equals("")) {
             showTrolleyOrReceiptPage(vbReceiptPage);
             taReceipt.setText(receipt);
         }
     }
+
+
+
+
+//
     // Replaces the last child of hbRoot with the specified page.
     // the last child is either vbTrolleyPage or vbReceiptPage.
     private void showTrolleyOrReceiptPage(Node pageToShow) {

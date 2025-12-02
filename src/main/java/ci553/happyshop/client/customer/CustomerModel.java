@@ -64,13 +64,9 @@ public class CustomerModel {
         }
 
 
-
-
-
-
     void addToTrolley() {
+        theProduct  = cusView.obrLvProducts.getSelectionModel().getSelectedItem();
         if (theProduct != null) {
-
 
             // trolley.add(theProduct) — Product is appended to the end of the trolley.
             // To keep the trolley organized, add code here or call a method that:
@@ -86,6 +82,7 @@ public class CustomerModel {
         displayTaReceipt = ""; // Clear receipt to switch back to trolleyPage (receipt shows only when not empty)
         updateView();
     }
+
 
 
     void makeOrganizedTrolley() {
