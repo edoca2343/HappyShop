@@ -44,7 +44,7 @@ public class CustomerView  {
     private VBox vbReceiptPage;
 
     TextField tfSearchKeyword; //for user input on the search page. Made accessible so it can be accessed or modified by CustomerModel
-    TextField tfName; //for user input on the search page. Made accessible so it can be accessed by CustomerModel
+
 
 
 
@@ -97,6 +97,10 @@ public class CustomerView  {
         tfSearchKeyword = new TextField();
         tfSearchKeyword.setPromptText("eg. 0001");
         tfSearchKeyword.setStyle(UIStyle.textFiledStyle);
+        laSearchSummary = new Label("Search Summary");
+        laSearchSummary.setStyle(UIStyle.labelStyle);
+
+
 
         btnSearch.setOnAction(this::buttonClicked);
         btnSearch.setStyle(UIStyle.buttonStyle);
@@ -116,7 +120,7 @@ public class CustomerView  {
         Button btnAddToTrolley = new Button("Add to Trolley");
         btnAddToTrolley.setStyle(UIStyle.buttonStyle);
         btnAddToTrolley.setOnAction(this::buttonClicked);
-        HBox hbBtns = new HBox(10,  btnAddToTrolley);
+        HBox hbBtns = new HBox(10, laSearchSummary, btnAddToTrolley);
         hbBtns.setAlignment(Pos.CENTER);
 
 
@@ -125,19 +129,6 @@ public class CustomerView  {
         obrLvProducts.setPrefHeight(HEIGHT - 100);
         obrLvProducts.setFixedCellSize(50);
         obrLvProducts.setStyle(UIStyle.listViewStyle);
-
-//        ivProduct = new ImageView("imageHolder.jpg");
-//        ivProduct.setFitHeight(60);
-//        ivProduct.setFitWidth(60);
-//        ivProduct.setPreserveRatio(true); // Image keeps its original shape and fits inside 60×60
-//        ivProduct.setSmooth(true); //make it smooth and nice-looking
-//
-//        lbProductInfo = new Label("Thank you for shopping with us.");
-//        lbProductInfo.setWrapText(true);
-//        lbProductInfo.setMinHeight(Label.USE_PREF_SIZE);  // Allow auto-resize
-//        lbProductInfo.setStyle(UIStyle.labelMulLineStyle);
-//        HBox hbSearchResult = new HBox(5, ivProduct, lbProductInfo);
-//        hbSearchResult.setAlignment(Pos.CENTER_LEFT);
 
         obrLvProducts.setCellFactory(param -> new ListCell<Product>() {
             @Override
@@ -247,17 +238,6 @@ public class CustomerView  {
             throw new RuntimeException(e);
         }
     }
-//    void updateObservableProductList  (ArrayList<Product> productList )
-//    {
-//        int proCounter = productList.size();
-//        System.out.println(proCounter);
-//        laSearchSummary.setText(proCounter + " Product found ");
-//        laSearchSummary.setvisible(true);
-//        obeProductList.clear();
-//        obeProductList.addAll(productList);
-//
-//
-//    }
 
 
 
@@ -265,8 +245,8 @@ public class CustomerView  {
 
         int proCounter = productList.size();
         System.out.println(proCounter);
-//        laSearchSummary.setText(proCounter + " products found");
-//        laSearchSummary.setVisible(true);
+        laSearchSummary.setText(proCounter + " products found");
+        laSearchSummary.setVisible(true);
         obeProductList.clear();
         obeProductList.addAll(productList);
 

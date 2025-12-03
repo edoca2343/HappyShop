@@ -84,6 +84,10 @@ public class Main extends Application {
         RemoveProductNotifier removeProductNotifier = new RemoveProductNotifier();
         removeProductNotifier.cusView = cusView;
         cusModel.removeProductNotifier = removeProductNotifier;
+
+        ExceptionWindow  exceptionWindow = new ExceptionWindow();
+        cusModel.exceptionWindow = exceptionWindow;
+        exceptionWindow.cusView = cusView;
     }
 
     /** The picker GUI, - for staff to pack customer's order,
