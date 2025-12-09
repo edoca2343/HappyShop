@@ -108,6 +108,7 @@ public class CustomerModel {
                     throw new ExcessiveOrderQuantityException("ExcessiveOrderQuantityException");
                 }
 
+
                 // Group the products in the trolley by productId to optimize stock checking
                 // Check the database for sufficient stock for all products in the trolley.
                 // If any products are insufficient, the update will be rolled back.
