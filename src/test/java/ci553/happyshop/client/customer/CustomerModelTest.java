@@ -21,5 +21,6 @@ class CustomerModelTest {
         ArrayList<Product> tro = cm.getTrolley();
       assertEquals(1, tro.size());
       assertEquals(3, tro.get(0).getOrderedQuantity());
+      assertEquals (3,tro.size());
     }
 }

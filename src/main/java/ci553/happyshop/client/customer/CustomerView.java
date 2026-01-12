@@ -22,7 +22,7 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static jdk.javadoc.internal.doclets.toolkit.util.DocPath.empty;
+//import static jdk.javadoc.internal.doclets.toolkit.util.DocPath.empty;
 
 /**
  * The CustomerView is separated into two sections by a line :

@@ -44,11 +44,6 @@ public class CustomerModel {
             String keyword = cusView.tfSearchKeyword.getText().trim();
 
             if (!keyword.equals("")) {
-//            theProduct = databaseRW.searchByProductId(productId); //search database
-//            if (theProduct != null && theProduct.getStockQuantity() > 0) {
-//                double unitPrice = theProduct.getUnitPrice();
-//                String description = theProduct.getProductDescription();
-//                int stock = theProduct.getStockQuantity();
                     productList  = databaseRW.searchProduct(keyword);
 
             } else{
@@ -90,7 +85,8 @@ public class CustomerModel {
                 return;
             }
         }
-        Product pNew = new Product(theProduct.getProductId(), theProduct.getProductDescription(), theProduct.getProductImageName(), theProduct.getUnitPrice(), theProduct.getStockQuantity());
+        Product pNew = new Product(theProduct.getProductId(), theProduct.getProductDescription(), theProduct.getProductImageName(),
+                theProduct.getUnitPrice(), theProduct.getStockQuantity());
         trolley.add(pNew);
         Collections.sort(trolley, Comparator.comparing(Product::getProductId));
     }
